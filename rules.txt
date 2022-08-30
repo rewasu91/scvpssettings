@@ -1,0 +1,9 @@
+-------------
+Bahasa Melayu
+-------------
+Peraturan Kami :-
+1. Tidak dibenarkan menjual skrip ini.
+2. Tidak dibenarkan mengedit apa-apa kandungan didalam skrip ini (Kecuali edit dari menu)
+3. Tidak dibenarkan untuk berkongsi lesen skrip anda
+4. Tidak dibenarkan menjalankan fungsi backup berulang kali, contoh dalam 1 jam, anda menjalankan 10 backup
+5. Jika pihak admin mendapati anda melanggar salah satu peraturan ini, pihak admin mempunyai hak unutk membatalkan lesen skrip anda dengan segera
