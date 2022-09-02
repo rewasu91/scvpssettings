@@ -1,19 +1,20 @@
 
-  ═══════════════════════════════════════════════════════════════════════════
-  |                            TERMA DAN SYARAT                             |                                  
-  ═══════════════════════════════════════════════════════════════════════════
-  |                                                                         |
-  |  1. Tidak dibenarkan menjual skrip ini.                                 |
-  |                                                                         |
-  |  2. Tidak dibenarkan mengedit apa-apa kandungan didalam skrip ini       |
-  |     (Kecuali edit dari menu)                                            |
-  |                                                                         |
-  |  3. Tidak dibenarkan menjalankan fungsi backup berulang kali, contoh    |
-  |     dalam 1 jam, anda menjalankan 10 backup                             |
-  |                                                                         | 
-  |  4. Jika pihak admin mendapati anda melanggar salah satu peraturan ini, |
-  |     pihak admin mempunyai hak unutk menamatkan servis sewa skrip anda   |
-  |     dengan segera.                                                      |
-  |                                                                         |
-  |                                             Disediakan Oleh: KaizenVPN  |
-  ═══════════════════════════════════════════════════════════════════════════
+
+    ═══════════════════════════════════════════════════════════════════════════
+    |                            TERMA DAN SYARAT                             |                                  
+    ═══════════════════════════════════════════════════════════════════════════
+    |                                                                         |
+    |  1. Tidak dibenarkan menjual skrip ini.                                 |
+    |                                                                         |
+    |  2. Tidak dibenarkan mengedit apa-apa kandungan didalam skrip ini       |
+    |     (Kecuali edit dari menu)                                            |
+    |                                                                         |
+    |  3. Tidak dibenarkan menjalankan fungsi backup berulang kali, contoh    |
+    |     dalam 1 jam, anda menjalankan 10 backup                             |
+    |                                                                         | 
+    |  4. Jika pihak admin mendapati anda melanggar salah satu peraturan ini, |
+    |     pihak admin mempunyai hak unutk menamatkan servis sewa skrip anda   |
+    |     dengan segera.                                                      |
+    |                                                                         |
+    |                                             Disediakan Oleh: KaizenVPN  |
+    ═══════════════════════════════════════════════════════════════════════════
