@@ -15,6 +15,9 @@ dateFromServer=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Dat
 biji=`date +"%Y-%m-%d" -d "$dateFromServer"`
 #########################
 
+rm -f /root/version.sh
+rm -f /root/update.sh
+
 # ══════════════════════════
 # // Export Warna & Maklumat
 # ══════════════════════════
@@ -148,7 +151,9 @@ export CITY_NYA="$CITY";
 export COUNTRY_NYA="$COUNTRY";
 export TIME_NYA="$TIMEZONE";
 
-export SCVERSION="V4.0";
+rm /etc/kaizenvpn/version;
+rm /etc/kaizenvpn/edition
+export SCVERSION="V3.0";
 export EDITION="Multiport Edition";
 echo "$SCVERSION" > /etc/kaizenvpn/version;
 echo "$EDITION" > /etc/kaizenvpn/edition;
