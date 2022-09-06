@@ -181,5 +181,3 @@ echo -e ""
 echo -e "► Tiada sebarang update buat masa ini.."
 echo -e "► Anda sedang menggunakan skrip versi terkini.."
 echo -e ""
-
-rm update.sh
