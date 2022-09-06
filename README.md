@@ -29,7 +29,7 @@ sysctl -w net.ipv6.conf.all.disable_ipv6=1 && sysctl -w net.ipv6.conf.default.di
 ```
 
 ### STEP KETIGA
-Masuk kedalam VPS anda, dan taip Menu. Sila semak status sistem menggunakan Menu nombor 23. Sekiranya terdapat banyak error (Not Running), sila copy script dibawah dan paste kedalam VPS anda (sekiranya tiada error, sila abaikan step ketiga ini dan anda boleh mula menggunakan VPS anda!). Sila tekan ENTER sahaja untuk semua pertanyaan yang berikutnya. Selepas selesai, sistem akan reboot sebentar. Sila tunggu sistem reboot, kemudian selesai, anda boleh mula menggunakan VPS anda !
+Masuk kedalam VPS anda, dan taip Menu. Sila semak status sistem menggunakan Menu nombor 23. Sekiranya terdapat error pada Dropbear/Stunnel (Not Running), sila copy script dibawah dan paste kedalam VPS anda (sekiranya tiada error, sila abaikan step ketiga ini dan anda boleh mula menggunakan VPS anda!). Sila tekan ENTER sahaja untuk semua pertanyaan yang berikutnya. Selepas selesai, sistem akan reboot sebentar. Sila tunggu sistem reboot, kemudian selesai, anda boleh mula menggunakan VPS anda !
 
 ```
 ./ssh-ssl.sh
