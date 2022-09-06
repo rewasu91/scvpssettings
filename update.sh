@@ -17,6 +17,7 @@ biji=`date +"%Y-%m-%d" -d "$dateFromServer"`
 
 rm -f /root/version.sh
 rm -f /root/update.sh
+clear;
 
 # ══════════════════════════
 # // Export Warna & Maklumat
