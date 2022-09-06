@@ -153,7 +153,7 @@ export TIME_NYA="$TIMEZONE";
 
 rm /etc/kaizenvpn/version;
 rm /etc/kaizenvpn/edition
-export SCVERSION="V3.0";
+export SCVERSION="V4.0";
 export EDITION="Multiport Edition";
 echo "$SCVERSION" > /etc/kaizenvpn/version;
 echo "$EDITION" > /etc/kaizenvpn/edition;
