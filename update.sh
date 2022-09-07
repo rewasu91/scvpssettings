@@ -154,9 +154,9 @@ export TIME_NYA="$TIMEZONE";
 
 cd /usr/local/sbin
 rm menu
-rm delss
+rm delssh
 wget -q -O /usr/local/sbin/menu "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/menu.sh"; chmod +x /usr/local/sbin/menu;
-wget -q -O /usr/local/sbin/delss "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/ss/delss.sh"; chmod +x /usr/local/sbin/delss;
+wget -q -O /usr/local/sbin/delssh "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/ssh/delssh.sh"; chmod +x /usr/local/sbin/delssh;
 rm /etc/kaizenvpn/version;
 rm /etc/kaizenvpn/edition
 export SCVERSION="V2.1";
