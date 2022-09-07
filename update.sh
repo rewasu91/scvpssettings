@@ -157,7 +157,7 @@ rm delss
 wget -q -O /usr/local/sbin/delss "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/ss/delss.sh"; chmod +x /usr/local/sbin/delss;
 rm /etc/kaizenvpn/version;
 rm /etc/kaizenvpn/edition
-export SCVERSION="V2.1";
+export SCVERSION="V2.0";
 export EDITION="Multiport Edition";
 echo "$SCVERSION" > /etc/kaizenvpn/version;
 echo "$EDITION" > /etc/kaizenvpn/edition;
@@ -174,8 +174,8 @@ echo -e "${WBBG}           [ Menu Update Skrip ]            ${NC}";
 echo -e "${CYAN}════════════════════════════════════════════${NC}";
 echo -e ""
 echo -e "  ► Sila tunggu, sistem sedang disemak.."
-sleep 3
-echo -e "  ► Sistem sedang update untuk fix error pada delete akaun SSH.."
+#sleep 3
+#echo -e "  ► Sistem sedang update untuk fix error pada delete akaun SSH.."
 sleep 3
 
 clear
