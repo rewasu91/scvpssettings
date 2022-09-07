@@ -152,9 +152,9 @@ export CITY_NYA="$CITY";
 export COUNTRY_NYA="$COUNTRY";
 export TIME_NYA="$TIMEZONE";
 
-cd /usr/local/sbin
-rm delss
-wget -q -O /usr/local/sbin/delss "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/ss/delss.sh"; chmod +x /usr/local/sbin/delss;
+#cd /usr/local/sbin
+#rm delss
+#wget -q -O /usr/local/sbin/delss "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/ss/delss.sh"; chmod +x /usr/local/sbin/delss;
 rm /etc/kaizenvpn/version;
 rm /etc/kaizenvpn/edition
 export SCVERSION="V2.0";
