@@ -152,12 +152,14 @@ export CITY_NYA="$CITY";
 export COUNTRY_NYA="$COUNTRY";
 export TIME_NYA="$TIMEZONE";
 
-#cd /usr/local/sbin
-#rm delss
-#wget -q -O /usr/local/sbin/delss "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/ss/delss.sh"; chmod +x /usr/local/sbin/delss;
+cd /usr/local/sbin
+rm menu
+rm delss
+wget -q -O /usr/local/sbin/menu "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/menu.sh"; chmod +x /usr/local/sbin/menu;
+wget -q -O /usr/local/sbin/delss "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/ss/delss.sh"; chmod +x /usr/local/sbin/delss;
 rm /etc/kaizenvpn/version;
 rm /etc/kaizenvpn/edition
-export SCVERSION="V2.0";
+export SCVERSION="V2.1";
 export EDITION="Multiport Edition";
 echo "$SCVERSION" > /etc/kaizenvpn/version;
 echo "$EDITION" > /etc/kaizenvpn/edition;
@@ -174,21 +176,25 @@ echo -e "${WBBG}           [ Menu Update Skrip ]            ${NC}";
 echo -e "${CYAN}════════════════════════════════════════════${NC}";
 echo -e ""
 echo -e "  ► Sila tunggu, sistem sedang disemak.."
-#sleep 3
-#echo -e "  ► Sistem sedang update untuk fix error pada delete akaun SSH.."
-sleep 3
+sleep 2
 
 clear
-echo -e ""
-echo -e ""
-cowsay -f ghostbusters "SELAMAT DATANG BOSKU."
-echo -e ""
-figlet -k '         KAIZEN'
-echo -e ""
+echo -e "";
+echo -e "";
+cowsay -f ghostbusters "SELAMAT DATANG BOSKU.";
+echo -e "";
 echo -e "${CYAN}════════════════════════════════════════════${NC}";
-echo -e "${WBBG}           [ Menu Update Skrip ]            ${NC}";
+echo -e "${WBBG}               [ VERSI SKRIP ]              ${NC}";
 echo -e "${CYAN}════════════════════════════════════════════${NC}";
-echo -e ""
-echo -e "  ► Selesai.."
-echo -e "  ► Anda sedang menggunakan skrip versi terkini.."
-echo -e ""
+echo -e "";
+echo -e "  [Changelog]";
+echo -e "  V2.1 : Fix error yang terdapat di menu "Memadam Akaun" untuk servis SSH & OpenVPN";
+echo -e "       : Membuang menu "Update skrip". Sistem akan update secara automatik selepas ini";
+echo -e "  V2.0 : Update sistem ke Multiport Edition";
+echo -e "  V1.0 : Skrip lama versi V2ray & Xray";
+echo -e "";
+echo -e "  Selesai! Anda sedang menggunakan skrip versi terkini !";
+echo -e "  KaizenVPN skrip ${SCVERSION} ${EDITION} | Ubuntu - Debian";
+echo -e "  (C) Copyright 2022 By KaizenVPN";
+echo -e "";
+sleep 10
