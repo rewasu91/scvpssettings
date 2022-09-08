@@ -160,7 +160,7 @@ wget -q -O /usr/local/sbin/menu "https://raw.githubusercontent.com/rewasu91/scvp
 wget -q -O /usr/local/sbin/menuautoreboot "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/other/menuautoreboot.sh"; chmod +x /usr/local/sbin/menuautoreboot;
 rm /etc/kaizenvpn/version;
 rm /etc/kaizenvpn/edition
-export SCVERSION="V2.1";
+export SCVERSION="V2.2";
 export EDITION="Multiport Edition";
 echo "$SCVERSION" > /etc/kaizenvpn/version;
 echo "$EDITION" > /etc/kaizenvpn/edition;
