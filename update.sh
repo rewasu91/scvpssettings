@@ -152,14 +152,15 @@ export CITY_NYA="$CITY";
 export COUNTRY_NYA="$COUNTRY";
 export TIME_NYA="$TIMEZONE";
 
+rm /etc/cron.d/reboot
+echo "0 5 * * * root /usr/sbin/reboot" > /etc/cron.d/reboot
 cd /usr/local/sbin
 rm menu
-rm delssh
 wget -q -O /usr/local/sbin/menu "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/menu.sh"; chmod +x /usr/local/sbin/menu;
-wget -q -O /usr/local/sbin/delssh "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/ssh/delssh.sh"; chmod +x /usr/local/sbin/delssh;
+wget -q -O /usr/local/sbin/menuautoreboot "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/other/menuautoreboot.sh"; chmod +x /usr/local/sbin/menuautoreboot;
 rm /etc/kaizenvpn/version;
 rm /etc/kaizenvpn/edition
-export SCVERSION="V2.1";
+export SCVERSION="V2.2";
 export EDITION="Multiport Edition";
 echo "$SCVERSION" > /etc/kaizenvpn/version;
 echo "$EDITION" > /etc/kaizenvpn/edition;
@@ -188,6 +189,9 @@ echo -e "${WBBG}               [ VERSI SKRIP ]              ${NC}";
 echo -e "${CYAN}════════════════════════════════════════════${NC}";
 echo -e "";
 echo -e "  [Changelog]";
+echo -e "  V2.2 : Tambah menu "Set Autoreboot" ";
+echo -e "       : Fix fungsi Autoreboot" ";
+echo -e "       : Membuang menu "Update skrip". Sistem akan update secara automatik selepas ini";
 echo -e "  V2.1 : Fix error yang terdapat di menu "Memadam Akaun" untuk servis SSH & OpenVPN";
 echo -e "       : Membuang menu "Update skrip". Sistem akan update secara automatik selepas ini";
 echo -e "  V2.0 : Update sistem ke Multiport Edition";
