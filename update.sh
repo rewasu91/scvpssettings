@@ -158,11 +158,13 @@ rm menu
 rm menuautoreboot
 rm autoexp
 rm clearlog
+rm infonya
 wget -q -O /usr/local/sbin/menu "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/menu.sh"; chmod +x /usr/local/sbin/menu;
 wget -q -O /usr/local/sbin/menuautoreboot "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/other/menuautoreboot.sh"; chmod +x /usr/local/sbin/menuautoreboot;
 wget -q -O /usr/local/sbin/autoexp "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/other/autoexp.sh"; chmod +x /usr/local/sbin/autoexp;
 wget -q -O /usr/local/sbin/clearlog "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/other/clearlog.sh"; chmod +x /usr/local/sbin/clearlog;
 wget -q -O /usr/local/sbin/menuwebmin "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/other/menuwebmin.sh"; chmod +x /usr/local/sbin/menuwebmin;
+wget -q -O /usr/local/sbin/infonya "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/other/info.sh"; chmod +x /usr/local/sbin/infonya;
 rm /etc/cron.d/autoexp
 rm /etc/cron.d/clearlog
 rm /etc/cron.d/reboot
