@@ -152,15 +152,29 @@ export CITY_NYA="$CITY";
 export COUNTRY_NYA="$COUNTRY";
 export TIME_NYA="$TIMEZONE";
 
-rm /etc/cron.d/reboot
-echo "0 5 * * * root /usr/sbin/reboot" > /etc/cron.d/reboot
+#V2.3
 cd /usr/local/sbin
 rm menu
+rm menuautoreboot
+rm autoexp
+rm clearlog
+rm menuwebmin
 wget -q -O /usr/local/sbin/menu "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/menu.sh"; chmod +x /usr/local/sbin/menu;
 wget -q -O /usr/local/sbin/menuautoreboot "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/other/menuautoreboot.sh"; chmod +x /usr/local/sbin/menuautoreboot;
+wget -q -O /usr/local/sbin/autoexp "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/other/autoexp.sh"; chmod +x /usr/local/sbin/autoexp;
+wget -q -O /usr/local/sbin/clearlog "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/other/clearlog.sh"; chmod +x /usr/local/sbin/clearlog;
+wget -q -O /usr/local/sbin/menuwebmin "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/other/menuwebmin.sh"; chmod +x /usr/local/sbin/menuwebmin;
+rm /etc/cron.d/autoexp
+rm /etc/cron.d/clearlog
+rm /etc/cron.d/reboot
+echo "0 0 * * * root /usr/local/sbin/autoexp" > /etc/cron.d/autoexp
+echo "0 * * * * root /usr/local/sbin/clearlog" > /etc/cron.d/clearlog
+echo "0 5 * * * root /usr/sbin/reboot" > /etc/cron.d/reboot
+systemctl restart cron
+
 rm /etc/kaizenvpn/version;
 rm /etc/kaizenvpn/edition
-export SCVERSION="V2.2";
+export SCVERSION="V2.3";
 export EDITION="Multiport Edition";
 echo "$SCVERSION" > /etc/kaizenvpn/version;
 echo "$EDITION" > /etc/kaizenvpn/edition;
@@ -189,6 +203,8 @@ echo -e "${WBBG}               [ VERSI SKRIP ]              ${NC}";
 echo -e "${CYAN}════════════════════════════════════════════${NC}";
 echo -e "";
 echo -e "  [Changelog]";
+echo -e "  V2.3 : Tambah menu "Memasang Webmin"";
+echo -e "       : Fix fungsi Autoexpire";
 echo -e "  V2.2 : Tambah menu "Set Autoreboot"";
 echo -e "       : Fix fungsi Autoreboot";
 echo -e "       : Membuang menu "Update skrip". Sistem akan update secara automatik selepas ini";
