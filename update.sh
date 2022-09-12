@@ -152,6 +152,38 @@ export CITY_NYA="$CITY";
 export COUNTRY_NYA="$COUNTRY";
 export TIME_NYA="$TIMEZONE";
 
+# ══════════════════════════════
+# // Mendapatkan maklumat Domain
+# ══════════════════════════════
+export domain=$( cat /etc/kaizenvpn/domain.txt );
+
+#V2.4
+rm /etc/xray-mini/tls.json;
+wget -qO- "https://raw.githubusercontent.com/rewasu91/scvps/main/Resource/Xray-Mini/1.0.Stable/tls_json" | jq '.inbounds[0].streamSettings.xtlsSettings.certificates += [{"certificateFile": "'/root/.acme.sh/${domain}_ecc/fullchain.cer'","keyFile": "'/root/.acme.sh/${domain}_ecc/${domain}.key'"}]' > /etc/xray-mini/tls.json;
+
+cd /usr/local/sbin
+
+rm vless-menu
+rm addvless
+rm trialvless
+rm chkvless
+rm trojan-menu
+rm addtrojan
+rm chktrojan
+rm trialtrojan
+rm trialvmess
+rm chkvmess
+wget -q -O /usr/local/sbin/vless-menu "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vless/menu.sh"; chmod +x /usr/local/sbin/vless-menu;
+wget -q -O /usr/local/sbin/addvless "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vless/addvless.sh"; chmod +x /usr/local/sbin/addvless;
+wget -q -O /usr/local/sbin/trialvless "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vless/trialvless.sh"; chmod +x /usr/local/sbin/trialvless;
+wget -q -O /usr/local/sbin/chkvless "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vless/chkvless.sh"; chmod +x /usr/local/sbin/chkvless;
+wget -q -O /usr/local/sbin/trojan-menu "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/trojan/menu.sh"; chmod +x /usr/local/sbin/trojan-menu;
+wget -q -O /usr/local/sbin/addtrojan "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/trojan/addtrojan.sh"; chmod +x /usr/local/sbin/addtrojan;
+wget -q -O /usr/local/sbin/chktrojan "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/trojan/chktrojan.sh"; chmod +x /usr/local/sbin/chktrojan;
+wget -q -O /usr/local/sbin/trialtrojan "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/trojan/trialtrojan.sh"; chmod +x /usr/local/sbin/trialtrojan;
+wget -q -O /usr/local/sbin/trialvmess "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vmess/trialvmess.sh"; chmod +x /usr/local/sbin/trialvmess;
+wget -q -O /usr/local/sbin/chkvmess "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vmess/chkvmess.sh"; chmod +x /usr/local/sbin/chkvmess;
+
 #V2.3
 cd /usr/local/sbin
 rm menu
@@ -173,9 +205,25 @@ echo "0 * * * * root /usr/local/sbin/clearlog" > /etc/cron.d/clearlog
 echo "0 5 * * * root /usr/sbin/reboot" > /etc/cron.d/reboot
 systemctl restart cron
 
+systemctl enable xray-mini@shadowsocks;
+systemctl enable xray-mini@tls;
+systemctl enable xray-mini@nontls;
+systemctl enable xray-mini@socks;
+systemctl enable xray-mini@http;
+systemctl start xray-mini@shadowsocks;
+systemctl start xray-mini@tls;
+systemctl start xray-mini@nontls;
+systemctl start xray-mini@socks;
+systemctl start xray-mini@http;
+systemctl restart xray-mini@shadowsocks;
+systemctl restart xray-mini@nontls
+systemctl restart xray-mini@tls
+systemctl restart xray-mini@socks
+systemctl restart xray-mini@http
+
 rm /etc/kaizenvpn/version;
 rm /etc/kaizenvpn/edition
-export SCVERSION="V2.3";
+export SCVERSION="V2.4";
 export EDITION="Multiport Edition";
 echo "$SCVERSION" > /etc/kaizenvpn/version;
 echo "$EDITION" > /etc/kaizenvpn/edition;
@@ -204,6 +252,7 @@ echo -e "${WBBG}               [ VERSI SKRIP ]              ${NC}";
 echo -e "${CYAN}════════════════════════════════════════════${NC}";
 echo -e "";
 echo -e "  [Changelog]";
+echo -e "  V2.4 : Tambah Vless XTLS & Trojan TCP XTLS"";
 echo -e "  V2.3 : Tambah menu "Memasang Webmin"";
 echo -e "       : Fix fungsi Autoexpire";
 echo -e "  V2.2 : Tambah menu "Set Autoreboot"";
