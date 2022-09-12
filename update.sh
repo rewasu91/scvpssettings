@@ -158,9 +158,6 @@ export TIME_NYA="$TIMEZONE";
 export domain=$( cat /etc/kaizenvpn/domain.txt );
 
 #V2.4
-rm /etc/xray-mini/tls.json;
-wget -qO- "https://raw.githubusercontent.com/rewasu91/scvps/main/Resource/Xray-Mini/1.0.Stable/tls_json" | jq '.inbounds[0].streamSettings.xtlsSettings.certificates += [{"certificateFile": "'/root/.acme.sh/${domain}_ecc/fullchain.cer'","keyFile": "'/root/.acme.sh/${domain}_ecc/${domain}.key'"}]' > /etc/xray-mini/tls.json;
-
 cd /usr/local/sbin
 rm vless-menu
 rm addvless
@@ -172,6 +169,19 @@ rm chktrojan
 rm trialtrojan
 rm trialvmess
 rm chkvmess
+rm deltrojan
+rm delvless
+rm delvmess
+rm addvmess
+rm vmessexp
+rm vlessexp
+rm trojanexp
+rm httpexp
+rm socksexp
+rm ssexp
+rm sshexp
+rm ssrexp
+rm wgexp
 wget -q -O /usr/local/sbin/vless-menu "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vless/menu.sh"; chmod +x /usr/local/sbin/vless-menu;
 wget -q -O /usr/local/sbin/addvless "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vless/addvless.sh"; chmod +x /usr/local/sbin/addvless;
 wget -q -O /usr/local/sbin/trialvless "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vless/trialvless.sh"; chmod +x /usr/local/sbin/trialvless;
@@ -182,6 +192,19 @@ wget -q -O /usr/local/sbin/chktrojan "https://raw.githubusercontent.com/rewasu91
 wget -q -O /usr/local/sbin/trialtrojan "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/trojan/trialtrojan.sh"; chmod +x /usr/local/sbin/trialtrojan;
 wget -q -O /usr/local/sbin/trialvmess "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vmess/trialvmess.sh"; chmod +x /usr/local/sbin/trialvmess;
 wget -q -O /usr/local/sbin/chkvmess "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vmess/chkvmess.sh"; chmod +x /usr/local/sbin/chkvmess;
+wget -q -O /usr/local/sbin/deltrojan "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/trojan/deltrojan.sh"; chmod +x /usr/local/sbin/deltrojan;
+wget -q -O /usr/local/sbin/delvless "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vless/delvless.sh"; chmod +x /usr/local/sbin/delvless;
+wget -q -O /usr/local/sbin/delvmess "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vmess/delvmess.sh"; chmod +x /usr/local/sbin/delvmess;
+wget -q -O /usr/local/sbin/addvmess "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vmess/addvmess.sh"; chmod +x /usr/local/sbin/addvmess;
+wget -q -O /usr/local/sbin/vmessexp "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vmess/vmessexp.sh"; chmod +x /usr/local/sbin/vmessexp;
+wget -q -O /usr/local/sbin/vlessexp "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vless/vlessexp.sh"; chmod +x /usr/local/sbin/vlessexp;
+wget -q -O /usr/local/sbin/trojanexp "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/trojan/trojanexp.sh"; chmod +x /usr/local/sbin/trojanexp;
+wget -q -O /usr/local/sbin/httpexp "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/http/httpexp.sh"; chmod +x /usr/local/sbin/httpexp;
+wget -q -O /usr/local/sbin/socksexp "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/socks/socksexp.sh"; chmod +x /usr/local/sbin/socksexp;
+wget -q -O /usr/local/sbin/ssexp "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/ss/ssexp.sh"; chmod +x /usr/local/sbin/ssexp;
+wget -q -O /usr/local/sbin/sshexp "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/ssh/sshexp.sh"; chmod +x /usr/local/sbin/sshexp;
+wget -q -O /usr/local/sbin/ssrexp "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/ssr/ssrexp.sh"; chmod +x /usr/local/sbin/ssrexp;
+wget -q -O /usr/local/sbin/wgexp "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/wg/wgexp.sh"; chmod +x /usr/local/sbin/wgexp;
 
 #V2.3
 cd /usr/local/sbin
@@ -251,9 +274,9 @@ echo -e "${WBBG}               [ VERSI SKRIP ]              ${NC}";
 echo -e "${CYAN}════════════════════════════════════════════${NC}";
 echo -e "";
 echo -e "  [Changelog]";
-echo -e "  V2.4 : Tambah Vless XTLS & Trojan TCP XTLS"";
-echo -e "  V2.3 : Tambah menu "Memasang Webmin"";
+echo -e "  V2.4 : Tambah Vless XTLS & Trojan TCP XTLS;
 echo -e "       : Fix fungsi Autoexpire";
+echo -e "  V2.3 : Tambah menu "Memasang Webmin"";
 echo -e "  V2.2 : Tambah menu "Set Autoreboot"";
 echo -e "       : Fix fungsi Autoreboot";
 echo -e "       : Membuang menu "Update skrip". Sistem akan update secara automatik selepas ini";
