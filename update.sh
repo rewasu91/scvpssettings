@@ -228,6 +228,10 @@ echo -e ""
 echo -e "  ► Sila tunggu, sistem sedang disemak.."
 sleep 2
 
+# // Make Folder for save the changelog
+mkdir -p /etc/kaizenvpn/changelog/;
+rm -f /etc/kaizenvpn/changelog/ch.log;
+
 clear
 echo -e "";
 echo -e "";
@@ -237,17 +241,17 @@ echo -e "${CYAN}═════════════════════�
 echo -e "${WBBG}               [ VERSI SKRIP ]              ${NC}";
 echo -e "${CYAN}════════════════════════════════════════════${NC}";
 echo -e "";
-echo -e "  [Changelog]";
-echo -e "  V2.5 : Fix fungsi Autokill Multilogin";
-echo -e "  V2.4 : Fix fungsi Autoexpire";
-echo -e "  V2.3 : Tambah menu "Memasang Webmin"";
-echo -e "  V2.2 : Tambah menu "Set Autoreboot"";
-echo -e "       : Fix fungsi Autoreboot";
-echo -e "       : Membuang menu "Update skrip". Sistem akan update secara automatik selepas ini";
-echo -e "  V2.1 : Fix error yang terdapat di menu "Memadam Akaun" untuk servis SSH & OpenVPN";
-echo -e "       : Membuang menu "Update skrip". Sistem akan update secara automatik selepas ini";
-echo -e "  V2.0 : Update sistem ke Multiport Edition";
-echo -e "  V1.0 : Skrip lama versi V2ray & Xray";
+echo -e "  [Changelog]"; | tee -a /etc/kaizenvpn/changelog/ch.log;
+echo -e "  V2.5 : Fix fungsi Autokill Multilogin"; | tee -a /etc/kaizenvpn/changelog/ch.log;
+echo -e "  V2.4 : Fix fungsi Autoexpire"; | tee -a /etc/kaizenvpn/changelog/ch.log;
+echo -e "  V2.3 : Tambah menu "Memasang Webmin""; | tee -a /etc/kaizenvpn/changelog/ch.log;
+echo -e "  V2.2 : Tambah menu "Set Autoreboot""; | tee -a /etc/kaizenvpn/changelog/ch.log;
+echo -e "       : Fix fungsi Autoreboot"; | tee -a /etc/kaizenvpn/changelog/ch.log;
+echo -e "       : Membuang menu "Update skrip". Sistem akan update secara automatik selepas ini"; | tee -a /etc/kaizenvpn/changelog/ch.log;
+echo -e "  V2.1 : Fix error yang terdapat di menu "Memadam Akaun" untuk servis SSH & OpenVPN"; | tee -a /etc/kaizenvpn/changelog/ch.log;
+echo -e "       : Membuang menu "Update skrip". Sistem akan update secara automatik selepas ini"; | tee -a /etc/kaizenvpn/changelog/ch.log;
+echo -e "  V2.0 : Update sistem ke Multiport Edition"; | tee -a /etc/kaizenvpn/changelog/ch.log;
+echo -e "  V1.0 : Skrip lama versi V2ray & Xray"; | tee -a /etc/kaizenvpn/changelog/ch.log;
 echo -e "";
 echo -e "  Selesai! Anda sedang menggunakan skrip versi terkini !";
 echo -e "  KaizenVPN skrip ${SCVERSION} ${EDITION} | Ubuntu - Debian";
