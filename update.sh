@@ -87,7 +87,7 @@ export TIME_NYA="$TIMEZONE";
 # ══════════════════════════════
 export domain=$( cat /etc/kaizenvpn/domain.txt );
 
-#V2.5
+#V2.6
 #cd /usr/local/sbin
 #rm vless-menu
 #rm addvless
@@ -117,6 +117,37 @@ export domain=$( cat /etc/kaizenvpn/domain.txt );
 #wget -q -O /usr/local/sbin/delvless "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vless/delvless.sh"; chmod +x /usr/local/sbin/delvless;
 #wget -q -O /usr/local/sbin/delvmess "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vmess/delvmess.sh"; chmod +x /usr/local/sbin/delvmess;
 #wget -q -O /usr/local/sbin/addvmess "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vmess/addvmess.sh"; chmod +x /usr/local/sbin/addvmess;
+
+#V2.5
+rm /usr/local/kaizenvpn/vmess-auto-kill
+rm /usr/local/kaizenvpn/ssh-auto-kill
+rm /usr/local/kaizenvpn/vless-auto-kill
+rm /usr/local/kaizenvpn/trojan-auto-kill
+rm /usr/local/kaizenvpn/ss-auto-kill
+rm /usr/local/sbin/autokill-menu
+rm /usr/local/sbin/listmulti
+wget -q -O /usr/local/kaizenvpn/vmess-auto-kill "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/Pro/Autokill/vmess-kill.sh"; chmod +x /usr/local/kaizenvpn/vmess-auto-kill;
+wget -q -O /usr/local/kaizenvpn/ssh-auto-kill "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/Pro/Autokill/ssh-kill.sh"; chmod +x /usr/local/kaizenvpn/ssh-auto-kill;
+wget -q -O /usr/local/kaizenvpn/vless-auto-kill "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/Pro/Autokill/vless-kill.sh"; chmod +x /usr/local/kaizenvpn/vless-auto-kill;
+wget -q -O /usr/local/kaizenvpn/trojan-auto-kill "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/Pro/Autokill/trojan-kill.sh"; chmod +x /usr/local/kaizenvpn/trojan-auto-kill;
+wget -q -O /usr/local/kaizenvpn/ss-auto-kill "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/Pro/Autokill/ss-kill.sh"; chmod +x /usr/local/kaizenvpn/ss-auto-kill;
+wget -q -O /usr/local/sbin/autokill-menu "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/Pro/Autokill/menu.sh"; chmod +x /usr/local/sbin/autokill-menu;
+wget -q -O /usr/local/sbin/listmulti "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/Pro/Autokill/listmulti.sh"; chmod +x /usr/local/sbin/listmulti;
+systemctl enable vmess-kill;
+systemctl enable ssh-kill;
+systemctl enable vless-kill;
+systemctl enable trojan-kill;
+systemctl enable ss-kill;
+systemctl start vmess-kill;
+systemctl start ssh-kill;
+systemctl start vless-kill;
+systemctl start trojan-kill;
+systemctl start ss-kill;
+systemctl restart vmess-kill;
+systemctl restart ssh-kill;
+systemctl restart vless-kill;
+systemctl restart trojan-kill;
+systemctl restart ss-kill;
 
 #V2.4
 cd /usr/local/sbin
@@ -178,7 +209,7 @@ systemctl restart xray-mini@http
 
 rm /etc/kaizenvpn/version;
 rm /etc/kaizenvpn/edition
-export SCVERSION="V2.4";
+export SCVERSION="V2.5";
 export EDITION="Multiport Edition";
 echo "$SCVERSION" > /etc/kaizenvpn/version;
 echo "$EDITION" > /etc/kaizenvpn/edition;
@@ -207,6 +238,7 @@ echo -e "${WBBG}               [ VERSI SKRIP ]              ${NC}";
 echo -e "${CYAN}════════════════════════════════════════════${NC}";
 echo -e "";
 echo -e "  [Changelog]";
+echo -e "  V2.5 : Fix fungsi Autokill Multilogin";
 echo -e "  V2.4 : Fix fungsi Autoexpire";
 echo -e "  V2.3 : Tambah menu "Memasang Webmin"";
 echo -e "  V2.2 : Tambah menu "Set Autoreboot"";
