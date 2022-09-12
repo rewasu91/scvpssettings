@@ -254,7 +254,7 @@ echo -e "       : Membuang menu "Update skrip". Sistem akan update secara automa
 echo -e "  V2.1 : Fix error yang terdapat di menu "Memadam Akaun" untuk servis SSH & OpenVPN" | tee -a /etc/kaizenvpn/changelog/ch.log;
 echo -e "       : Membuang menu "Update skrip". Sistem akan update secara automatik selepas ini" | tee -a /etc/kaizenvpn/changelog/ch.log;
 echo -e "  V2.0 : Update sistem ke Multiport Edition" | tee -a /etc/kaizenvpn/changelog/ch.log;
-echo -e "  V1.0 : Skrip lama versi V2ray & Xray"; | tee -a /etc/kaizenvpn/changelog/ch.log;
+echo -e "  V1.0 : Skrip lama versi V2ray & Xray" | tee -a /etc/kaizenvpn/changelog/ch.log;
 echo -e "";
 echo -e "  Selesai! Anda sedang menggunakan skrip versi terkini !";
 echo -e "  KaizenVPN skrip ${SCVERSION} ${EDITION} | Ubuntu - Debian";
