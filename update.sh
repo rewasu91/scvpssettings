@@ -69,76 +69,6 @@ export SERVICE_DIRECTORY="/etc/systemd/system";
 export SCRIPT_SETUP_URL="https://raw.githubusercontent.com/rewasu91/scvps/main/setup.sh";
 export REPO_URL="https://github.com/rewasu91/scvps";
 
-# ═══════════════
-# // Allow Access
-# ═══════════════
-BURIQ () {
-    curl -sS https://raw.githubusercontent.com/rewasu91/scvpssettings/main/access > /root/tmp
-    data=( `cat /root/tmp | grep -E "^### " | awk '{print $2}'` )
-    for user in "${data[@]}"
-    do
-    exp=( `grep -E "^### $user" "/root/tmp" | awk '{print $3}'` )
-    d1=(`date -d "$exp" +%s`)
-    d2=(`date -d "$biji" +%s`)
-    exp2=$(( (d1 - d2) / 86400 ))
-    if [[ "$exp2" -le "0" ]]; then
-    echo $user > /etc/.$user.ini
-    else
-    rm -f  /etc/.$user.ini > /dev/null 2>&1
-    fi
-    done
-    rm -f  /root/tmp
-}
-# https://raw.githubusercontent.com/rewasu91/scvpssettings/main/access
-MYIP=$(curl -sS ipv4.icanhazip.com)
-Name=$(curl -sS https://raw.githubusercontent.com/rewasu91/scvpssettings/main/access | grep $MYIP | awk '{print $2}')
-echo $Name > /usr/local/etc/.$Name.ini
-CekOne=$(cat /usr/local/etc/.$Name.ini)
-Bloman () {
-if [ -f "/etc/.$Name.ini" ]; then
-CekTwo=$(cat /etc/.$Name.ini)
-    if [ "$CekOne" = "$CekTwo" ]; then
-        res="Expired"
-    fi
-else
-res="Permission Accepted..."
-fi
-}
-PERMISSION () {
-    MYIP=$(curl -sS ipv4.icanhazip.com)
-    IZIN=$(curl -sS https://raw.githubusercontent.com/rewasu91/scvpssettings/main/access | awk '{print $4}' | grep $MYIP)
-    if [ "$MYIP" = "$IZIN" ]; then
-    Bloman
-    else
-    res="Permission Denied!"
-    fi
-    BURIQ
-}
-PERMISSION
-if [ "$res" = "Permission Accepted..." ]; then
-echo -ne
-else
-echo -e "${ERROR} Permission Denied!";
-exit 0
-fi
-
-# ═════════════════════════════════════════════════════════
-# // Semak kalau anda sudah running sebagai root atau belum
-# ═════════════════════════════════════════════════════════
-if [[ "${EUID}" -ne 0 ]]; then
-		echo -e " ${ERROR} Sila jalankan skrip ini sebagai root user";
-		exit 1
-fi
-
-# ════════════════════════════════════════════════════════════
-# // Menyemak sistem sekiranya terdapat pemasangan yang kurang
-# ════════════════════════════════════════════════════════════
-if ! which jq > /dev/null; then
-    clear;
-    echo -e "${ERROR} JQ Packages Not installed";
-    exit 1;
-fi
-
 # ═══════════════════════════════
 # // Exporting maklumat rangkaian
 # ═══════════════════════════════
@@ -157,22 +87,39 @@ export TIME_NYA="$TIMEZONE";
 # ══════════════════════════════
 export domain=$( cat /etc/kaizenvpn/domain.txt );
 
+#V2.5
+#cd /usr/local/sbin
+#rm vless-menu
+#rm addvless
+#rm trialvless
+#rm chkvless
+#rm trojan-menu
+#rm addtrojan
+#rm chktrojan
+#rm trialtrojan
+#rm trialvmess
+#rm chkvmess
+#rm deltrojan
+#rm delvless
+#rm delvmess
+#rm addvmess
+#wget -q -O /usr/local/sbin/vless-menu "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vless/menu.sh"; chmod +x /usr/local/sbin/vless-menu;
+#wget -q -O /usr/local/sbin/addvless "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vless/addvless.sh"; chmod +x /usr/local/sbin/addvless;
+#wget -q -O /usr/local/sbin/trialvless "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vless/trialvless.sh"; chmod +x /usr/local/sbin/trialvless;
+#wget -q -O /usr/local/sbin/chkvless "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vless/chkvless.sh"; chmod +x /usr/local/sbin/chkvless;
+#wget -q -O /usr/local/sbin/trojan-menu "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/trojan/menu.sh"; chmod +x /usr/local/sbin/trojan-menu;
+#wget -q -O /usr/local/sbin/addtrojan "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/trojan/addtrojan.sh"; chmod +x /usr/local/sbin/addtrojan;
+#wget -q -O /usr/local/sbin/chktrojan "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/trojan/chktrojan.sh"; chmod +x /usr/local/sbin/chktrojan;
+#wget -q -O /usr/local/sbin/trialtrojan "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/trojan/trialtrojan.sh"; chmod +x /usr/local/sbin/trialtrojan;
+#wget -q -O /usr/local/sbin/trialvmess "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vmess/trialvmess.sh"; chmod +x /usr/local/sbin/trialvmess;
+#wget -q -O /usr/local/sbin/chkvmess "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vmess/chkvmess.sh"; chmod +x /usr/local/sbin/chkvmess;
+#wget -q -O /usr/local/sbin/deltrojan "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/trojan/deltrojan.sh"; chmod +x /usr/local/sbin/deltrojan;
+#wget -q -O /usr/local/sbin/delvless "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vless/delvless.sh"; chmod +x /usr/local/sbin/delvless;
+#wget -q -O /usr/local/sbin/delvmess "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vmess/delvmess.sh"; chmod +x /usr/local/sbin/delvmess;
+#wget -q -O /usr/local/sbin/addvmess "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vmess/addvmess.sh"; chmod +x /usr/local/sbin/addvmess;
+
 #V2.4
 cd /usr/local/sbin
-rm vless-menu
-rm addvless
-rm trialvless
-rm chkvless
-rm trojan-menu
-rm addtrojan
-rm chktrojan
-rm trialtrojan
-rm trialvmess
-rm chkvmess
-rm deltrojan
-rm delvless
-rm delvmess
-rm addvmess
 rm vmessexp
 rm vlessexp
 rm trojanexp
@@ -182,20 +129,6 @@ rm ssexp
 rm sshexp
 rm ssrexp
 rm wgexp
-wget -q -O /usr/local/sbin/vless-menu "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vless/menu.sh"; chmod +x /usr/local/sbin/vless-menu;
-wget -q -O /usr/local/sbin/addvless "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vless/addvless.sh"; chmod +x /usr/local/sbin/addvless;
-wget -q -O /usr/local/sbin/trialvless "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vless/trialvless.sh"; chmod +x /usr/local/sbin/trialvless;
-wget -q -O /usr/local/sbin/chkvless "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vless/chkvless.sh"; chmod +x /usr/local/sbin/chkvless;
-wget -q -O /usr/local/sbin/trojan-menu "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/trojan/menu.sh"; chmod +x /usr/local/sbin/trojan-menu;
-wget -q -O /usr/local/sbin/addtrojan "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/trojan/addtrojan.sh"; chmod +x /usr/local/sbin/addtrojan;
-wget -q -O /usr/local/sbin/chktrojan "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/trojan/chktrojan.sh"; chmod +x /usr/local/sbin/chktrojan;
-wget -q -O /usr/local/sbin/trialtrojan "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/trojan/trialtrojan.sh"; chmod +x /usr/local/sbin/trialtrojan;
-wget -q -O /usr/local/sbin/trialvmess "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vmess/trialvmess.sh"; chmod +x /usr/local/sbin/trialvmess;
-wget -q -O /usr/local/sbin/chkvmess "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vmess/chkvmess.sh"; chmod +x /usr/local/sbin/chkvmess;
-wget -q -O /usr/local/sbin/deltrojan "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/trojan/deltrojan.sh"; chmod +x /usr/local/sbin/deltrojan;
-wget -q -O /usr/local/sbin/delvless "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vless/delvless.sh"; chmod +x /usr/local/sbin/delvless;
-wget -q -O /usr/local/sbin/delvmess "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vmess/delvmess.sh"; chmod +x /usr/local/sbin/delvmess;
-wget -q -O /usr/local/sbin/addvmess "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vmess/addvmess.sh"; chmod +x /usr/local/sbin/addvmess;
 wget -q -O /usr/local/sbin/vmessexp "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vmess/vmessexp.sh"; chmod +x /usr/local/sbin/vmessexp;
 wget -q -O /usr/local/sbin/vlessexp "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vless/vlessexp.sh"; chmod +x /usr/local/sbin/vlessexp;
 wget -q -O /usr/local/sbin/trojanexp "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/trojan/trojanexp.sh"; chmod +x /usr/local/sbin/trojanexp;
@@ -274,8 +207,7 @@ echo -e "${WBBG}               [ VERSI SKRIP ]              ${NC}";
 echo -e "${CYAN}════════════════════════════════════════════${NC}";
 echo -e "";
 echo -e "  [Changelog]";
-echo -e "  V2.4 : Tambah Vless XTLS & Trojan TCP XTLS;
-echo -e "       : Fix fungsi Autoexpire";
+echo -e "  V2.4 : Fix fungsi Autoexpire";
 echo -e "  V2.3 : Tambah menu "Memasang Webmin"";
 echo -e "  V2.2 : Tambah menu "Set Autoreboot"";
 echo -e "       : Fix fungsi Autoreboot";
