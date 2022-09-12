@@ -162,7 +162,6 @@ rm /etc/xray-mini/tls.json;
 wget -qO- "https://raw.githubusercontent.com/rewasu91/scvps/main/Resource/Xray-Mini/1.0.Stable/tls_json" | jq '.inbounds[0].streamSettings.xtlsSettings.certificates += [{"certificateFile": "'/root/.acme.sh/${domain}_ecc/fullchain.cer'","keyFile": "'/root/.acme.sh/${domain}_ecc/${domain}.key'"}]' > /etc/xray-mini/tls.json;
 
 cd /usr/local/sbin
-
 rm vless-menu
 rm addvless
 rm trialvless
