@@ -126,6 +126,7 @@ rm /usr/local/kaizenvpn/trojan-auto-kill
 rm /usr/local/kaizenvpn/ss-auto-kill
 rm /usr/local/sbin/autokill-menu
 rm /usr/local/sbin/listmulti
+rm /usr/local/sbin/vpnscript
 wget -q -O /usr/local/kaizenvpn/vmess-auto-kill "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/Pro/Autokill/vmess-kill.sh"; chmod +x /usr/local/kaizenvpn/vmess-auto-kill;
 wget -q -O /usr/local/kaizenvpn/ssh-auto-kill "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/Pro/Autokill/ssh-kill.sh"; chmod +x /usr/local/kaizenvpn/ssh-auto-kill;
 wget -q -O /usr/local/kaizenvpn/vless-auto-kill "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/Pro/Autokill/vless-kill.sh"; chmod +x /usr/local/kaizenvpn/vless-auto-kill;
@@ -133,6 +134,7 @@ wget -q -O /usr/local/kaizenvpn/trojan-auto-kill "https://raw.githubusercontent.
 wget -q -O /usr/local/kaizenvpn/ss-auto-kill "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/Pro/Autokill/ss-kill.sh"; chmod +x /usr/local/kaizenvpn/ss-auto-kill;
 wget -q -O /usr/local/sbin/autokill-menu "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/Pro/Autokill/menu.sh"; chmod +x /usr/local/sbin/autokill-menu;
 wget -q -O /usr/local/sbin/listmulti "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/Pro/Autokill/listmulti.sh"; chmod +x /usr/local/sbin/listmulti;
+wget -q -O /usr/local/sbin/vpnscript "https://raw.githubusercontent.com/rewasu91/scvps/main/Setup/script-version.sh"; chmod +x /usr/local/sbin/vpnscript;
 systemctl enable vmess-kill;
 systemctl enable ssh-kill;
 systemctl enable vless-kill;
@@ -243,6 +245,7 @@ echo -e "${CYAN}═════════════════════�
 echo -e "";
 echo -e "  [Changelog]"; | tee -a /etc/kaizenvpn/changelog/ch.log;
 echo -e "  V2.5 : Fix fungsi Autokill Multilogin"; | tee -a /etc/kaizenvpn/changelog/ch.log;
+echo -e "       : Tambah Changelog dalam menu "Cek versi skrip""; | tee -a /etc/kaizenvpn/changelog/ch.log;
 echo -e "  V2.4 : Fix fungsi Autoexpire"; | tee -a /etc/kaizenvpn/changelog/ch.log;
 echo -e "  V2.3 : Tambah menu "Memasang Webmin""; | tee -a /etc/kaizenvpn/changelog/ch.log;
 echo -e "  V2.2 : Tambah menu "Set Autoreboot""; | tee -a /etc/kaizenvpn/changelog/ch.log;
