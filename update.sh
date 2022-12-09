@@ -88,35 +88,21 @@ export TIME_NYA="$TIMEZONE";
 export domain=$( cat /etc/kaizenvpn/domain.txt );
 
 #V2.6
-#cd /usr/local/sbin
-#rm vless-menu
-#rm addvless
-#rm trialvless
-#rm chkvless
-#rm trojan-menu
-#rm addtrojan
-#rm chktrojan
-#rm trialtrojan
-#rm trialvmess
-#rm chkvmess
-#rm deltrojan
-#rm delvless
-#rm delvmess
-#rm addvmess
-#wget -q -O /usr/local/sbin/vless-menu "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vless/menu.sh"; chmod +x /usr/local/sbin/vless-menu;
-#wget -q -O /usr/local/sbin/addvless "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vless/addvless.sh"; chmod +x /usr/local/sbin/addvless;
-#wget -q -O /usr/local/sbin/trialvless "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vless/trialvless.sh"; chmod +x /usr/local/sbin/trialvless;
-#wget -q -O /usr/local/sbin/chkvless "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vless/chkvless.sh"; chmod +x /usr/local/sbin/chkvless;
-#wget -q -O /usr/local/sbin/trojan-menu "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/trojan/menu.sh"; chmod +x /usr/local/sbin/trojan-menu;
-#wget -q -O /usr/local/sbin/addtrojan "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/trojan/addtrojan.sh"; chmod +x /usr/local/sbin/addtrojan;
-#wget -q -O /usr/local/sbin/chktrojan "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/trojan/chktrojan.sh"; chmod +x /usr/local/sbin/chktrojan;
-#wget -q -O /usr/local/sbin/trialtrojan "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/trojan/trialtrojan.sh"; chmod +x /usr/local/sbin/trialtrojan;
-#wget -q -O /usr/local/sbin/trialvmess "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vmess/trialvmess.sh"; chmod +x /usr/local/sbin/trialvmess;
-#wget -q -O /usr/local/sbin/chkvmess "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vmess/chkvmess.sh"; chmod +x /usr/local/sbin/chkvmess;
-#wget -q -O /usr/local/sbin/deltrojan "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/trojan/deltrojan.sh"; chmod +x /usr/local/sbin/deltrojan;
-#wget -q -O /usr/local/sbin/delvless "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vless/delvless.sh"; chmod +x /usr/local/sbin/delvless;
-#wget -q -O /usr/local/sbin/delvmess "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vmess/delvmess.sh"; chmod +x /usr/local/sbin/delvmess;
-#wget -q -O /usr/local/sbin/addvmess "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/vmess/addvmess.sh"; chmod +x /usr/local/sbin/addvmess;
+mv /usr/local/kaizenvpn/xray-mini /root/.backupxray
+wget -q -O /usr/local/kaizenvpn/xray-mini "https://raw.githubusercontent.com/rewasu91/scvps/main/Resource/Core/xray-mini";
+chmod 755 /usr/local/kaizenvpn/xray-mini
+systemctl restart xray-mini@tls;
+systemctl restart xray-mini@nontls;
+systemctl restart xray-mini@socks;
+systemctl restart xray-mini@shadowsocks;
+systemctl restart xray-mini@http;
+systemctl restart nginx;
+systemctl restart fail2ban;
+systemctl restart ssr-server;
+systemctl restart dropbear;
+systemctl restart ssh;
+systemctl restart stunnel4;
+systemctl restart sslh;
 
 #V2.5
 rm /usr/local/kaizenvpn/vmess-auto-kill
@@ -211,7 +197,7 @@ systemctl restart xray-mini@http
 
 rm /etc/kaizenvpn/version;
 rm /etc/kaizenvpn/edition
-export SCVERSION="V2.5";
+export SCVERSION="V2.6";
 export EDITION="Multiport Edition";
 echo "$SCVERSION" > /etc/kaizenvpn/version;
 echo "$EDITION" > /etc/kaizenvpn/edition;
@@ -244,6 +230,7 @@ echo -e "${WBBG}               [ VERSI SKRIP ]              ${NC}";
 echo -e "${CYAN}════════════════════════════════════════════${NC}";
 echo -e "";
 echo -e "  [Changelog]" | tee -a /etc/kaizenvpn/changelog/ch.log;
+echo -e "  V2.6 : Update Xray Core (Support CF-RAY)" | tee -a /etc/kaizenvpn/changelog/ch.log;
 echo -e "  V2.5 : Fix fungsi Autokill Multilogin" | tee -a /etc/kaizenvpn/changelog/ch.log;
 echo -e "       : Tambah Changelog dalam menu "Cek versi skrip"" | tee -a /etc/kaizenvpn/changelog/ch.log;
 echo -e "  V2.4 : Fix fungsi Autoexpire" | tee -a /etc/kaizenvpn/changelog/ch.log;
