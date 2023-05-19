@@ -242,6 +242,7 @@ echo -e "";
 echo -e "  [Changelog]" | tee -a /etc/kaizenvpn/changelog/ch.log;
 echo -e "  V2.7 : Tukar backup melalui google drive kepada backup melalui bot telegram" | tee -a /etc/kaizenvpn/changelog/ch.log;
 echo -e "       : Fix sesetengah menu tiada tunjuk bandwith download dan upload" | tee -a /etc/kaizenvpn/changelog/ch.log;
+echo -e "       : Tambah menu "Cek Status Streaming"" | tee -a /etc/kaizenvpn/changelog/ch.log;
 echo -e "  V2.6 : Update Xray Core (Support CF-RAY)" | tee -a /etc/kaizenvpn/changelog/ch.log;
 echo -e "  V2.5 : Fix fungsi Autokill Multilogin" | tee -a /etc/kaizenvpn/changelog/ch.log;
 echo -e "       : Tambah Changelog dalam menu "Cek versi skrip"" | tee -a /etc/kaizenvpn/changelog/ch.log;
