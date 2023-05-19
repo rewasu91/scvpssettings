@@ -87,6 +87,16 @@ export TIME_NYA="$TIMEZONE";
 # ══════════════════════════════
 export domain=$( cat /etc/kaizenvpn/domain.txt );
 
+#V2.7
+#rm /usr/local/sbin/menubackup
+#rm /usr/local/sbin/menu
+#rm /usr/local/sbin/infonya
+#rm /usr/local/sbin/vpnscript
+#wget -q -O /usr/local/sbin/backup "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/other/backup.sh"; chmod +x /usr/local/sbin/backup;
+#wget -q -O /usr/local/sbin/menu "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/menu.sh"; chmod +x /usr/local/sbin/menu;
+#wget -q -O /usr/local/sbin/infonya "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/other/info.sh"; chmod +x /usr/local/sbin/infonya;
+#wget -q -O /usr/local/sbin/vpnscript "https://raw.githubusercontent.com/rewasu91/scvps/main/Setup/script-version.sh"; chmod +x /usr/local/sbin/vpnscript;
+
 #V2.6
 mv /usr/local/kaizenvpn/xray-mini /root/.backupxray
 wget -q -O /usr/local/kaizenvpn/xray-mini "https://raw.githubusercontent.com/rewasu91/scvps/main/Resource/Core/xray-mini";
@@ -230,6 +240,8 @@ echo -e "${WBBG}               [ VERSI SKRIP ]              ${NC}";
 echo -e "${CYAN}════════════════════════════════════════════${NC}";
 echo -e "";
 echo -e "  [Changelog]" | tee -a /etc/kaizenvpn/changelog/ch.log;
+echo -e "  V2.7 : Tukar backup melalui google drive kepada backup melalui bot telegram" | tee -a /etc/kaizenvpn/changelog/ch.log;
+echo -e "       : Fix sesetengah menu tiada tunjuk bandwith download dan upload" | tee -a /etc/kaizenvpn/changelog/ch.log;
 echo -e "  V2.6 : Update Xray Core (Support CF-RAY)" | tee -a /etc/kaizenvpn/changelog/ch.log;
 echo -e "  V2.5 : Fix fungsi Autokill Multilogin" | tee -a /etc/kaizenvpn/changelog/ch.log;
 echo -e "       : Tambah Changelog dalam menu "Cek versi skrip"" | tee -a /etc/kaizenvpn/changelog/ch.log;
@@ -245,6 +257,6 @@ echo -e "  V1.0 : Skrip lama versi V2ray & Xray" | tee -a /etc/kaizenvpn/changel
 echo -e "";
 echo -e "  Selesai! Anda sedang menggunakan skrip versi terkini !";
 echo -e "  KaizenVPN skrip ${SCVERSION} ${EDITION} | Ubuntu - Debian";
-echo -e "  (C) Copyright 2022 By KaizenVPN";
+echo -e "  (C) Copyright 2023 By KaizenVPN";
 echo -e "";
 sleep 10
