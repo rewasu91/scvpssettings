@@ -88,14 +88,18 @@ export TIME_NYA="$TIMEZONE";
 export domain=$( cat /etc/kaizenvpn/domain.txt );
 
 #V2.7
-#rm /usr/local/sbin/menubackup
-#rm /usr/local/sbin/menu
-#rm /usr/local/sbin/infonya
-#rm /usr/local/sbin/vpnscript
-#wget -q -O /usr/local/sbin/backup "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/other/backup.sh"; chmod +x /usr/local/sbin/backup;
-#wget -q -O /usr/local/sbin/menu "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/menu.sh"; chmod +x /usr/local/sbin/menu;
-#wget -q -O /usr/local/sbin/infonya "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/other/info.sh"; chmod +x /usr/local/sbin/infonya;
-#wget -q -O /usr/local/sbin/vpnscript "https://raw.githubusercontent.com/rewasu91/scvps/main/Setup/script-version.sh"; chmod +x /usr/local/sbin/vpnscript;
+rm /usr/local/sbin/addemailbackup
+rm /usr/local/sbin/restore
+rm /usr/local/sbin/autobackup
+rm /usr/local/sbin/menubackup
+rm /usr/local/sbin/menu
+rm /usr/local/sbin/infonya
+rm /usr/local/sbin/vpnscript
+wget -q -O /usr/local/sbin/cek-streaming "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/other/cek-streaming.sh"; chmod +x /usr/local/sbin/cek-streaming;
+wget -q -O /usr/local/sbin/backup "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/other/backup.sh"; chmod +x /usr/local/sbin/backup;
+wget -q -O /usr/local/sbin/menu "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/menu.sh"; chmod +x /usr/local/sbin/menu;
+wget -q -O /usr/local/sbin/infonya "https://raw.githubusercontent.com/rewasu91/scvps/main/Menu/other/info.sh"; chmod +x /usr/local/sbin/infonya;
+wget -q -O /usr/local/sbin/vpnscript "https://raw.githubusercontent.com/rewasu91/scvps/main/Setup/script-version.sh"; chmod +x /usr/local/sbin/vpnscript;
 
 #V2.6
 mv /usr/local/kaizenvpn/xray-mini /root/.backupxray
@@ -207,7 +211,7 @@ systemctl restart xray-mini@http
 
 rm /etc/kaizenvpn/version;
 rm /etc/kaizenvpn/edition
-export SCVERSION="V2.6";
+export SCVERSION="V2.7";
 export EDITION="Multiport Edition";
 echo "$SCVERSION" > /etc/kaizenvpn/version;
 echo "$EDITION" > /etc/kaizenvpn/edition;
