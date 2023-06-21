@@ -235,7 +235,7 @@ vless_nontls1="vless://${uuid}@www.unisza.edu.my.${domain}:${nontls_port}?path=/
 vless_nontls2="vless://${uuid}@104.16.53.111:${nontls_port}?path=/vless&security=none&encryption=none&host=${domain}&type=ws#${Username}";
 vless_tls6="vless://${uuid}@www.viu.com.${domain}:${tls_port}?path=/vless&security=tls&encryption=none&type=ws#${Username}";
 vless_tls7="vless://${uuid}@sub.viu.com.www.viu.com.${domain}:${tls_port}?path=/vless&security=tls&encryption=none&type=ws#${Username}";
-vless_tls8="vless://${uuid}@sub.viu.com${domain}:${tls_port}?path=/vless&security=tls&encryption=none&type=ws&sni=sub.viu.com#${Username}";
+vless_tls8="vless://${uuid}@sub.viu.com.${domain}:${tls_port}?path=/vless&security=tls&encryption=none&type=ws&sni=sub.viu.com#${Username}";
 #vless_grpc="vless://${uuid}@${domain}:${tls_port}?mode=gun&security=tls&encryption=none&type=grpc&serviceName=Vless-GRPC#${Username}";
 
 # // Restarting XRay Service
