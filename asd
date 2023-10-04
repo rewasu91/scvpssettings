@@ -61,6 +61,7 @@ d2=$(zcatctl -d "$now" +%s)
 exp2=$(( (d1 - d2) / 86400 ))
 fi
 
+LOGO
 laneTop1
 echo -e "   ${keatas}  Versi Skrip   : ${green}v3.0${plain}"
 echo -e "   ${keatas}  Nama Client   : ${green}${name}${plain}"
