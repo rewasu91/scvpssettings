@@ -53,6 +53,7 @@ function Credit_KaizenVPS()
 
 function client() {
 exp=$(curl -sS https://raw.githubusercontent.com/rewasu91/scvpssettings/main/access | grep $MYIP | awk '{print $3}')
+name=$(curl -sS https://raw.githubusercontent.com/rewasu91/kaizenvps/main/access/allow | grep $MYIP | awk '{print $2}')
 now=$(TZ='Asia/Kuala_Lumpur' date "+%Y-%m-%d %T %s" | awk '{print $1}')
 if [[ ${exp} =~ ^[0-9\-]+$ ]]; then
 d1=$(zcatctl -d "$exp" +%s)
