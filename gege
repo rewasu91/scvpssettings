@@ -52,6 +52,7 @@ function Credit_KaizenVPS()
 }
 
 function client() {
+MYIP=$(wget -qO- ipinfo.io/ip)
 exp=$(curl -sS https://raw.githubusercontent.com/rewasu91/scvpssettings/main/access | grep $MYIP | awk '{print $3}')
 name=$(curl -sS https://raw.githubusercontent.com/rewasu91/scvpssettings/main/access | grep $MYIP | awk '{print $2}')
 now=$(TZ='Asia/Kuala_Lumpur' date "+%Y-%m-%d %T %s" | awk '{print $1}')
