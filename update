@@ -84,6 +84,9 @@ address=/maybank2u.com.my/124.217.246.148
 address=/cimbclicks.com.my/124.217.246.148
 address=/bankrakyat.com.my/124.217.246.148
 address=/irakyat.com.my/124.217.246.148
+
+# > OTHER
+address=/bharian.com.my/124.217.246.148
 DNS1
 chmod +x /etc/dnsmasq.conf
 systemctl enable dnsmasq > /dev/null 2>&1
