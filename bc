@@ -14,9 +14,6 @@ else
   PROXY_URL="socks5://${SOCKS_IP}:${SOCKS_PORT}"
 fi
 
-echo "[1/6] Update system..."
-apt update -y
-apt install -y dnscrypt-proxy curl ufw
 
 echo "[2/6] Backup config lama..."
 cp /etc/dnscrypt-proxy/dnscrypt-proxy.toml /etc/dnscrypt-proxy/dnscrypt-proxy.toml.bak.$(date +%s)
