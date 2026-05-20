@@ -1,0 +1,94 @@
+#!/bin/bash
+set -e
+
+read -p "Masukkan SOCKS5 IP: " SOCKS_IP
+read -p "Masukkan SOCKS5 PORT: " SOCKS_PORT
+read -p "Ada username/password? (y/n): " AUTH
+
+if [[ "$AUTH" == "y" ]]; then
+  read -p "Username: " SOCKS_USER
+  read -s -p "Password: " SOCKS_PASS
+  echo
+  PROXY_URL="socks5://${SOCKS_USER}:${SOCKS_PASS}@${SOCKS_IP}:${SOCKS_PORT}"
+else
+  PROXY_URL="socks5://${SOCKS_IP}:${SOCKS_PORT}"
+fi
+
+echo "[1/6] Update system..."
+apt update -y
+apt install -y dnscrypt-proxy curl ufw
+
+echo "[2/6] Backup config lama..."
+cp /etc/dnscrypt-proxy/dnscrypt-proxy.toml /etc/dnscrypt-proxy/dnscrypt-proxy.toml.bak.$(date +%s)
+
+echo "[3/6] Tulis config dnscrypt-proxy..."
+cat > /etc/dnscrypt-proxy/dnscrypt-proxy.toml <<EOF
+listen_addresses = ['0.0.0.0:53']
+server_names = ['cloudflare', 'google']
+
+ipv4_servers = true
+ipv6_servers = false
+dnscrypt_servers = true
+doh_servers = true
+odoh_servers = false
+
+require_dnssec = false
+require_nolog = false
+require_nofilter = false
+
+force_tcp = false
+timeout = 5000
+keepalive = 30
+
+proxy = '${PROXY_URL}'
+
+cache = true
+cache_size = 4096
+cache_min_ttl = 2400
+cache_max_ttl = 86400
+cache_neg_min_ttl = 60
+cache_neg_max_ttl = 600
+
+[query_log]
+file = '/var/log/dnscrypt-proxy/query.log'
+format = 'tsv'
+
+[nx_log]
+file = '/var/log/dnscrypt-proxy/nx.log'
+format = 'tsv'
+
+[sources]
+
+[sources.'public-resolvers']
+urls = [
+  'https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md',
+  'https://download.dnscrypt.info/resolvers-list/v3/public-resolvers.md'
+]
+cache_file = '/var/cache/dnscrypt-proxy/public-resolvers.md'
+minisign_key = 'RWQf6LRC0M7cs5jprf2A2x5w8ZtfX4D6cY4pGz9vuy4vI8D+4p/36qsL'
+refresh_delay = 72
+prefix = ''
+EOF
+
+echo "[4/6] Disable systemd-resolved kalau kacau port 53..."
+systemctl stop systemd-resolved 2>/dev/null || true
+systemctl disable systemd-resolved 2>/dev/null || true
+
+echo "[5/6] Firewall..."
+ufw allow 22/tcp
+ufw allow 53/tcp
+ufw allow 53/udp
+ufw --force enable
+
+echo "[6/6] Restart service..."
+systemctl enable dnscrypt-proxy
+systemctl restart dnscrypt-proxy
+
+echo
+echo "Siap."
+echo "DNS VPS kamu:"
+curl -4 ifconfig.me || true
+echo
+echo
+echo "Test dari device lain:"
+echo "nslookup google.com IP_VPS"
