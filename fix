@@ -1,0 +1,115 @@
+#Backup Setup
+# Install rclone secara non-interactive. Utamakan package distro (lebih stabil pada Debian 13/Ubuntu 26),
+# dan gunakan installer rasmi hanya sebagai fallback. Semua proses mempunyai timeout + live progress.
+run_with_progress() {
+    local timeout_sec="$1"; shift
+    local label="$1"; shift
+    local log_file="/tmp/rclone-progress.$$.log"
+
+    timeout --foreground "${timeout_sec}s" "$@" >"$log_file" 2>&1 &
+    local pid=$! elapsed=0 spin='|/-\\' i=0
+    while kill -0 "$pid" 2>/dev/null; do
+        local bars=$((elapsed/2)); (( bars > 30 )) && bars=30
+        printf "\r[%-30s] %3ds %s %c" "$(printf '%*s' "$bars" '' | tr ' ' '=')" "$elapsed" "$label" "${spin:i++%4:1}"
+        sleep 1
+        elapsed=$((elapsed+1))
+    done
+    wait "$pid"
+    local rc=$?
+    printf "\r%-90s\r" ""
+
+    if [[ $rc -eq 124 ]]; then
+        echo "[WARN] Timeout selepas ${timeout_sec}s: $label"
+    elif [[ $rc -ne 0 ]]; then
+        echo "[WARN] Gagal: $label (code $rc)"
+    fi
+    [[ $rc -ne 0 ]] && tail -n 15 "$log_file" 2>/dev/null
+    rm -f "$log_file"
+    return $rc
+}
+
+install_rclone_noninteractive() {
+    echo "Memulai pemasangan rclone..."
+
+    if command -v rclone >/dev/null 2>&1; then
+        echo "[OK] rclone sudah terpasang: $(rclone version 2>/dev/null | head -n1)"
+        return 0
+    fi
+
+    # Debian 13 dan Ubuntu 26 menyediakan rclone dalam repository distro.
+    # Ini mengelakkan installer curl rasmi yang kadang-kadang mengambil masa sangat lama.
+    if run_with_progress 120 "Installing rclone melalui APT..." \
+        env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends rclone; then
+        command -v rclone >/dev/null 2>&1 && {
+            echo "[OK] rclone berhasil dipasang melalui APT."
+            return 0
+        }
+    fi
+
+    echo "[WARN] APT rclone gagal/tidak tersedia. Mencoba installer rasmi sebagai fallback..."
+    local tmp_script="/tmp/rclone-install.sh"
+    if ! curl -4 -fsSL --connect-timeout 10 --max-time 30 https://rclone.org/install.sh -o "$tmp_script"; then
+        echo "[WARN] Gagal download installer rclone. Pemasangan rclone dilewati agar installer utama tidak tersangkut."
+        return 1
+    fi
+
+    chmod +x "$tmp_script"
+    if run_with_progress 90 "Installing rclone melalui fallback..." bash "$tmp_script"; then
+        rm -f "$tmp_script"
+        command -v rclone >/dev/null 2>&1 && {
+            echo "[OK] rclone berhasil dipasang melalui fallback."
+            return 0
+        }
+    fi
+
+    rm -f "$tmp_script"
+    echo "[WARN] rclone gagal dipasang, tetapi proses instalasi utama akan diteruskan."
+    return 1
+}
+
+install_rclone_noninteractive || true
+mkdir -p /root/.config/rclone
+rm -f /root/.config/rclone/rclone.conf
+cat > /root/.config/rclone/rclone.conf <<EOL
+[rerechan]
+type = drive
+scope = drive
+use_trash = false
+metadata_owner = read,write
+metadata_permissions = read,write
+metadata_labels = read,write
+token = {"access_token":"ya29.a0AZYkNZgbRJZcQjDt_mqZ6fyNmTfWkQYc8mzf6SyfR0Wk16YR3RUCuQf4hMol3izLaj43Q1R85EqCKNO0yrY2igEuactxcaZPhscBz1UJM8HhO5VT05Om4wG96mdVT4iyPQJ91vnIjr6tGMFGc6Ieh1-N4aYKOc-4dqY4xp0JaCgYKARcSARESFQHGX2MikSBSmHt3K5WTimMhqcm8jQ0175","token_type":"Bearer","refresh_token":"1//0gy_QhkW2lmAaCgYIARAAGBASNwF-L9Ircw-lb7lBdaev_Pq_ml4hZcnSJ1r4mHs3jnj4HFZ7e6a2RQPLAsJa1DBuHesE4MkVRbg","expiry":"2025-04-13T02:20:19.628115625Z"}
+
+
+EOL
+chmod 600 /root/.config/rclone/rclone.conf
+cd /root
+echo -e "PATH=/usr/local/rere:$PATH" >> /root/.bashrc
+source /root/.bashrc
+echo -e "source /root/.bashrc\ninfo" >> /root/.profile
+touch /root/.system
+
+clear
+id1="6389176425"
+token1="6230907878:AAExag4j8lRsJbMdAIv6T9STI1g6kp_Vq68"
+URL="https://api.telegram.org/bot$token1/sendMessage"
+TIME=$(date)
+TEXT="
+<code>────────────────────</code>
+<b>NOTIFICATIONS INSTALL AutoScript</b>
+<code>────────────────────</code>
+<code>user   : </code><code>$nama</code>
+<code>ID     : </code><code>Premium FN Project</code>
+<code>Domain : </code><code>$domain</code>
+<code>Date   : </code><code>$TIME</code>
+<code>Ip vps : </code><code>$(cat /root/.ip)</code>
+<code>────────────────────</code>
+<i>Automatic Notification from Github</i>
+"
+
+curl -s -X POST $URL -d "chat_id=$id1&text=$TEXT&parse_mode=html"
+clear
+echo -e ""
+echo -e "Success Install Script On Server"
+sleep 5
+reboot
