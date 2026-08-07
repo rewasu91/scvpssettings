@@ -1,0 +1,144 @@
+#!/usr/bin/env bash
+set -e
+SRC_TMP="/tmp/cek-login-ssh.new.$$"
+TARGET="/usr/local/rere/cek-login-ssh"
+BACKUP="${TARGET}.bak-$(date +%Y%m%d-%H%M%S)"
+
+cat > "$SRC_TMP" <<'SCRIPT'
+#!/usr/bin/env bash
+# SSH active-login checker - supports OpenSSH + Dropbear + systemd journal
+
+DB="/etc/funny/database/ssh/database.json"
+IPDIR="/etc/funny/limit/ssh/ip"
+BOT_KEY="/etc/funny/bot/notif/bot.key"
+CHAT_ID="/etc/funny/bot/notif/client.id"
+FLAG="/etc/funny/bot/ssh-login-bot.flag"
+
+telegram_bot_token=$(cat "$BOT_KEY" 2>/dev/null || true)
+telegram_chatid=$(cat "$CHAT_ID" 2>/dev/null || true)
+domain=$(cat /etc/xray/domain 2>/dev/null || hostname -f 2>/dev/null || hostname)
+ipvps=$(cat /root/.ip 2>/dev/null || hostname -I 2>/dev/null | awk '{print $1}')
+
+# Build one authentication snapshot. Debian 12/13 may not have /var/log/auth.log.
+AUTH_TMP=$(mktemp /tmp/ssh-auth.XXXXXX)
+trap 'rm -f "$AUTH_TMP"' EXIT
+{
+    [[ -r /var/log/auth.log ]] && tail -n 20000 /var/log/auth.log
+    [[ -r /var/log/secure ]] && tail -n 20000 /var/log/secure
+    command -v journalctl >/dev/null 2>&1 && journalctl --no-pager -n 20000 \
+        -u ssh.service -u sshd.service -u dropbear.service 2>/dev/null
+} > "$AUTH_TMP"
+
+# Account source MUST be the SSH database, not only the IP-limit directory.
+mapfile -t USERS < <(
+    if [[ -s "$DB" ]] && command -v jq >/dev/null 2>&1; then
+        jq -r '.[].Username // empty' "$DB" 2>/dev/null
+    else
+        awk -F: '$3 >= 1000 && $1 != "nobody" && $7 !~ /(nologin|false)$/ {print $1}' /etc/passwd
+    fi | awk 'NF && !seen[$0]++'
+)
+
+get_ip_limit() {
+    local u=$1 v=""
+    if [[ -s "$DB" ]] && command -v jq >/dev/null 2>&1; then
+        v=$(jq -r --arg u "$u" '.[] | select(.Username==$u) | .LimitIP // 0' "$DB" 2>/dev/null | head -n1)
+    fi
+    [[ -z "$v" || "$v" == "null" ]] && v=$(cat "$IPDIR/$u" 2>/dev/null || echo 0)
+    [[ "$v" =~ ^[0-9]+$ ]] || v=0
+    if (( v == 0 )); then echo "N/A"; else echo "$v"; fi
+}
+
+get_quota_limit() {
+    local u=$1 q=""
+    if [[ -s "$DB" ]] && command -v jq >/dev/null 2>&1; then
+        q=$(jq -r --arg u "$u" '.[] | select(.Username==$u) | .Quota // 0' "$DB" 2>/dev/null | head -n1)
+    fi
+    [[ -z "$q" || "$q" == "null" ]] && q=0
+    if [[ "$q" =~ ^[0-9]+([.][0-9]+)?$ ]] && awk "BEGIN{exit !($q>0)}"; then
+        echo "${q} GB"
+    else
+        echo "N/A"
+    fi
+}
+
+# Count authenticated OpenSSH child sessions. Works for PTY and tunnel-only (@notty) sessions.
+count_openssh() {
+    local u=$1
+    ps -eo args= 2>/dev/null | awk -v p="sshd: ${u}@" 'index($0,p)==1 {n++} END{print n+0}'
+}
+
+# Count active Dropbear child PIDs whose successful-auth log belongs to this user.
+# The master Dropbear PID has no successful-auth line and is therefore ignored.
+count_dropbear() {
+    local u=$1 pid n=0
+    while read -r pid; do
+        [[ -n "$pid" ]] || continue
+        if grep -F "dropbear[$pid]" "$AUTH_TMP" 2>/dev/null | \
+           grep -Ei "(Password auth succeeded|Pubkey auth succeeded|auth succeeded).*['\"]?${u}['\"]?|for ['\"]${u}['\"]" \
+           >/dev/null 2>&1; then
+            n=$((n+1))
+        fi
+    done < <(pgrep -x dropbear 2>/dev/null || true)
+    echo "$n"
+}
+
+# Fallback for interactive sessions if process titles/logging differ on a distro.
+count_who() {
+    local u=$1
+    who 2>/dev/null | awk -v u="$u" '$1==u {n++} END{print n+0}'
+}
+
+clear
+echo "----------------------------------"
+echo "       [ SSH User Login ]"
+echo "----------------------------------"
+
+aktif=0
+telegram_text="*SSH User Login Report*\nDomain: \`$domain\`\nIP VPS: \`$ipvps\`\n----------------------------------"
+
+for user in "${USERS[@]}"; do
+    [[ -n "$user" ]] || continue
+    os=$(count_openssh "$user")
+    db=$(count_dropbear "$user")
+    wh=$(count_who "$user")
+
+    # who is only a fallback; avoid double-counting the same OpenSSH PTY session.
+    login=$((os + db))
+    (( login == 0 && wh > 0 )) && login=$wh
+    (( login > 0 )) || continue
+
+    limit=$(get_ip_limit "$user")
+    quota=$(get_quota_limit "$user")
+
+    echo "User  : $user"
+    echo "Login : $login / $limit IP"
+    echo "Quota : N/A / $quota"
+    echo "----------------------------------"
+
+    telegram_text+="\nUser: \`$user\`\nLogin: \`$login / $limit IP\`\nQuota: \`N/A / $quota\`\n----------------------------------"
+    aktif=$((aktif+1))
+done
+
+if (( aktif == 0 )); then
+    echo "No SSH users are currently online."
+    echo "----------------------------------"
+fi
+
+echo "$aktif User Online"
+echo "----------------------------------"
+
+if [[ -f "$FLAG" && $aktif -gt 0 && -n "$telegram_bot_token" && -n "$telegram_chatid" ]]; then
+    telegram_text+="\nTotal Online: \`$aktif User(s)\`"
+    curl -s -X POST "https://api.telegram.org/bot${telegram_bot_token}/sendMessage" \
+        -d "chat_id=$telegram_chatid" -d "parse_mode=Markdown" \
+        --data-urlencode "text=$telegram_text" >/dev/null 2>&1 || true
+fi
+SCRIPT
+
+bash -n "$SRC_TMP"
+[[ -f "$TARGET" ]] && cp -a "$TARGET" "$BACKUP"
+install -m 755 "$SRC_TMP" "$TARGET"
+rm -f "$SRC_TMP"
+echo "[OK] SSH Check Login fixed."
+echo "[INFO] Backup: $BACKUP"
+echo "[INFO] Run: cek-login-ssh"
