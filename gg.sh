@@ -7,7 +7,7 @@ if [[ ${EUID:-$(id -u)} -ne 0 ]]; then
 fi
 
 STAMP=$(date +%Y%m%d-%H%M%S)
-BACKUP="/root/tcp-v4-backup-${STAMP}"
+BACKUP="/root/tcp-v5-backup-${STAMP}"
 mkdir -p "$BACKUP"
 
 backup_file() {
@@ -25,7 +25,7 @@ if [[ -d /usr/local/rere ]]; then
   cp -a /usr/local/rere "$BACKUP/usr/local/rere"
 fi
 
-echo "[INFO] Backup: $BACKUP"
+echo "[INFO] TCP v5 backup: $BACKUP"
 
 python3 <<'PY'
 from pathlib import Path
@@ -70,6 +70,40 @@ if not re.search(r'^\s*bind\s+\*:2083\s+ssl\b', s, flags=re.M):
     line=f'    bind *:2083 ssl crt {cert} alpn h2,http/1.1 tfo\n'
     b=b.replace('frontend multiports_ssl\n','frontend multiports_ssl\n'+line,1)
     s=s[:m2.start(1)] + b + s[m2.end(1):]
+
+# Repair any backend sections that may be missing from an earlier hotfix/config revision.
+# Only append a backend when its named section does not already exist.
+def ensure_backend(name, body):
+    global s
+    if not re.search(r'^backend\s+' + re.escape(name) + r'\b', s, flags=re.M):
+        s = s.rstrip() + '\n\n' + body.strip() + '\n'
+
+ensure_backend('XRAY_VLESS_TCP', '''\
+backend XRAY_VLESS_TCP
+    mode tcp
+    server xray-vless-tcp 127.0.0.1:1235 send-proxy-v2
+''')
+ensure_backend('XRAY_VMESS_TCP', '''\
+backend XRAY_VMESS_TCP
+    mode tcp
+    server xray-vmess-tcp 127.0.0.1:1234 send-proxy-v2
+''')
+ensure_backend('XRAY_TROJAN_TCP', '''\
+backend XRAY_TROJAN_TCP
+    mode tcp
+    server xray-trojan-tcp 127.0.0.1:1236 send-proxy-v2
+''')
+ensure_backend('OPENVPN', '''\
+backend OPENVPN
+    mode tcp
+    balance roundrobin
+    server ovpn 127.0.0.1:1194 check
+    server wsovpn 127.0.0.1:2081 send-proxy check
+''')
+
+# Remove health checks specifically from Xray TCP backends even if they were
+# recreated or had older variants.
+s=re.sub(r'(^\s*server\s+xray-(?:vless|vmess|trojan)-tcp\s+[^\n]*?\s+send-proxy-v2)\s+check(?:\s+[^\n]*)?$', r'\1', s, flags=re.M)
 
 hp.write_text(s)
 
@@ -184,3 +218,7 @@ printf '%s\n' '[OK] TCP routing hotfix applied.' \
   'VLESS HTTP header: /tcpvless' \
   'VMess HTTP header: /tcpvmess' \
   "Backup           : $BACKUP"
+
+
+echo '[INFO] HAProxy backend references:'
+grep -nE '^(frontend|backend) |use_backend (XRAY_|OPENVPN)|default_backend OPENVPN|server xray-' /etc/haproxy/haproxy.cfg || true
